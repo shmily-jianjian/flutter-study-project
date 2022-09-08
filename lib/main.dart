@@ -1,7 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+// TODO 明天: 路由 和 主题色
 
 void main() async {
   runApp(const MyApp());
@@ -14,7 +14,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -32,6 +31,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool canEntry = false;
+
+  void changeEntry() {
+    setState(() {
+      canEntry = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -42,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return canEntry
         ? Scaffold(
-            extendBodyBehindAppBar: true,
+            // extendBodyBehindAppBar: true,
             appBar: AppBar(
               title: const Text('首页'),
               backgroundColor: Theme.of(context).primaryColor,
@@ -51,26 +57,33 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('首页'),
             ),
           )
-        : Container(
-            width: double.infinity,
-            height: double.infinity,
-            color: const Color.fromRGBO(136, 76, 255, 0.8),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        SystemChrome.setEnabledSystemUIMode(
-                            SystemUiMode.edgeToEdge);
-                        setState(() {
-                          canEntry = true;
-                        });
-                      },
-                      child: const Text('进入系统'))
-                ],
-              ),
-            ),
-          );
+        : InitialWidget(changeEntry: changeEntry);
+  }
+}
+
+// 真正进入系统前展示的界面
+class InitialWidget extends StatelessWidget {
+  const InitialWidget({Key? key, required this.changeEntry}) : super(key: key);
+  final Function changeEntry;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      color: const Color.fromRGBO(136, 76, 255, 0.8),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+                onPressed: () {
+                  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+                  changeEntry();
+                },
+                child: const Text('进入系统'))
+          ],
+        ),
+      ),
+    );
   }
 }
