@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_family/pages/home/home_widget.dart';
+import 'package:flutter_family/pages/map/map_widget.dart';
+import 'package:flutter_family/pages/mine/mine_widget.dart';
 
 class NavigatorBarConfig {
   static double iconWidth = 24;
@@ -15,6 +18,17 @@ class NavigatorBarConfig {
       'icon': 'assets/nav_icon_navigation_default.png',
       'activeIcon': 'assets/nav_icon_navigation_selected.png',
     },
+    {
+      'label': '我的',
+      'icon': 'assets/nav_icon_my_default.png',
+      'activeIcon': 'assets/nav_icon_my_selected.png',
+    },
+  ];
+
+  static List<Widget> bottomNavigationBarWidgets = const [
+    HomeWidget(),
+    MapWidget(),
+    MineWidget(),
   ];
 
   static BottomNavigationBarItem getBottomNavItem(
